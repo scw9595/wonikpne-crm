@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<title>원익피앤이-CRM솔루션</title>
+	<link rel="stylesheet" type="text/css" href="/common/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/common/css/common.css?after">
+	<link rel="stylesheet" type="text/css" href="/common/css/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="/common/css/layout.css?after">
+	<link rel="stylesheet" type="text/css" href="/common/css/lithium.css">
+
+	<!-- <script type="text/javascript" src="/common/js/jquery-1.12.4.min.js"></script> -->
+	<!-- jQuery 3.x (최신 안정 버전) -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="/common/js/jquery-ui.js"></script>
+	<script type="text/javascript" src="/common/js/layout.js?v=time()"></script>
+	<script type="text/javascript" src="/common/js/jquery.fileDownload.js"></script>
+	<script type="text/javascript" src="/common/js/layout.js"></script>
+	<script type="text/javascript" src="/common/js/lithium.js"></script>
+	<!--[if lt IE 9]>
+		<script src="/common/js/html5shiv.min.js"></script>
+	<![endif]-->
+</head>
+<!-- <body style="overflow-x:visible;"> -->
+	<header>
+		<div class="h_wrap">
+			<div class="top_nav">
+				<ul>
+										<li id="setting"><a href="/setting/manager_info_list.php">환경설정</a></li>
+					<li id="cs"><a href="/cs/cs_view.php">CS관리</a></li>
+					<li id="customer"><a href="/customer/sales_list.php">수주관리</a></li>
+									</ul>
+			</div> <!-- top_nav -->
+			<a href="javascript:" class="mem_info">서정우님 접속중</a>
+			<a href="/logout.php" class="logout_bt"><img src="/common/img/logout_bt.png" width="25" height="25" alt="로그아웃"></a>
+		</div> <!-- h_wrap -->
+	</header>
+	<!--- 레이어팝업 띄우기 START -->
+	<div id="wrap_layer" style="display:none; left:0; top:0; width:100%; height:100%; position:absolute; z-index:50; background-color:#cfcfcf;"></div>
+	<div id="content_layer" style="display:none;  position:absolute; top:20%; left:20%; z-index:100; background-color:#fff; border:1px solid #555555; padding:10px; margin-top:10px;"></div>
+	<!--- 레이어팝업 띄우기 END -->
+
+<style type="text/css">
+
+select[readonly] {
+  background-color: #ddd;
+  pointer-events: none;
+}
+	.tableWrap, .buttonRight {width:1205px;}
+	/* .tableWrap .msTableInput_gray tbody tr th {width:100px;}
+	.tableWrap .msTableInput_gray tbody tr td {width:300px;} */
+	textarea {width:96%;height:70px;overflow:auto;}
+	/* overflow-x:scroll; */
+	.highlight {
+    background-color: yellow; /* 강조 색상 */
+    transition: background-color 0.3s; /* 부드러운 전환 효과 */
+	}
+	input[type='text'], select {
+		text-align: center;
+		width : 98% !important;
+	}
+	textarea {
+		text-align: left;
+		width : 99% !important;
+	}
+	.detail_th {
+		background-color : #F3F3F3;
+		font-weight: bold;
+	}
+	body {
+							margin: 0;
+							padding: 0;
+							align-items: center;
+	 }
+	.outer-iframe {
+		height:100%;
+		overflow:hidden;
+	}
+
+</style>
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+<section>
+	<div class="container">
+		
+<nav style="height:100%;">
+	<ul class="gnb">
+			<li><a href="/cs/cs_reg.php" id="cs_reg">CS등록</a></li>
+		<li><a href="/cs/cs_view.php" id="cs_view">CS현황</a></li>
+		<li><a href="/cs/cs_reg2.php" id="cs_reg2">CS등록(TF)</a></li>
+		<li><a href="/cs/cs_view2.php" id="cs_view2">CS현황(TF)</a></li>
+		<li><a href="/cs/cs_dashboard.php" id="cs_dashboard">DASHBOARD(TF)</a></li>
+		<li><a href="/cs/cs_monitering.php" id="cs_monitering">CS 현황 Monitering</a></li>
+		<li><a href="/cs/cs_summary.php" id="cs_summary">CS집계</a></li>
+		<li><a href="/cs/cs_admin_data.php" id="cs_admin_data">CS자료관리</a></li>
+		<li><a href="/cs/Warranty_period_list.php" id="Warranty_period_list">Warranty현황</a></li>
+		<!-- 등록화면 추가_2021-08-24_yo.jang -->
+		<li><a href="/cs/formation_cs_reg.php" id="formation_cs_reg">CS등록(유지보수계약건)</a></li>
+		<li><a href="/cs/formation_cs_view.php" id="formation_cs_view">CS현황(유지보수계약건)</a></li>
+		<li><a href="/cs/bps_cs_cost.php" id="bps_cs_cost">BPS CS단가</a></li>
+		<li><a href="/cs/bls_cs_cost.php" id="bls_cs_cost">BLS CS단가</a></li>
+
+		</ul> <!-- ul.gnb -->
+</nav>
+
+<script>
+	$(document).ready(function(){
+		nFolder();
+		nPage();
+		stitle();
+	});
+
+	// 상단메뉴 active
+	function nFolder(){
+		$("#cs"+"> a").addClass("active");
+	}
+
+	// 페이지 active
+	function nPage(){
+		//$("#cs_reg2"+"> a").addClass("active");
+		$("#cs_reg2").addClass("active");
+	}
+
+	// 타이틀 넣기
+	function stitle(){
+		//var stxt = $("#cs_reg2"+"> a").text();
+		var stxt = $("#cs_reg2").text();
+
+		 	if( "cs_reg2" == "manager_info_form" ){ //관리자정보관리
+		 		stxt = "관리자정보수정";
+		 		$("#manager_info_list").addClass("active");
+		 	}
+
+		$(".menu_title_text > span").text(stxt);
+	}
+</script>
+		<div class="contents">
+			<div class="menu_title_text">
+				<span>페이지명</span>
+
+			</div> <!-- menu_title_text -->
+			<div class="con_wrap" id="con_wrap" >
+				<h3 class="pTitlel_square">CS기본정보</h3>
+				<div class="tableWrap">
+					<form method="post" id="reg_form" name="reg_form" action="cs_info_proc2.php">
+					<input type="hidden" name="receipt_no" value="">
+					<input type="hidden" id= "state11" name="state11" value="">
+					<input type="hidden" id= "state" name="state" value="1">
+					<input type="hidden" name="rel_fg" value="">
+					<input type="hidden" name="equipment" value="" >
+					<input type="hidden" name="oi_code" value="">
+					<table class="msTableInput_gray">
+						<caption class="mHidden"></caption>
+						<tbody>
+							<tr>
+							<th>*CS제목</th>
+								<td colspan="5">
+									<input type="text" class="mWt98p" name="subject" maxlength="40" value="" />
+								</td>
+							</tr>					
+							<tr> 
+								<th class="mWt12p">* CS 등록일(작성일)</th>
+								<td class="mWt18p impo" value="CS 등록일(작성일)">
+									<input type="text" class="mWt60p" style = "width:90%; background-color:#EAEAEA; !important;" name="create_date" maxlength="40" value="2025-07-30" readonly/>
+								</td>
+								<th class="mWt12p">* 등록 구분</th>
+								<td class="mWt18p" style = "text-align : center;">
+																			<label><input type="radio" name="rg_gubun" id="rg_gubun1" maxlength="40" value="신규" checked>신규</label>
+										<label><input type="radio" name="rg_gubun" id="rg_gubun2" maxlength="40" value="재발" >재발</label>
+																		</td>
+								<th class="mWt12p">* 프로젝트 수주번호</th>
+								<td class="mWt18p impo" value="프로젝트 수주번호">
+									<input type="text" name="oi_order_no" value="" style="background-color:#EAEAEA; width: 78% !important;" readonly/>
+																			<span class="msButton_blue3" onclick="open_popup_part_info('popup_order_list.php', 900, 600, 0);" style="height:18px;">찾기</span>
+																		<!-- <input type="text" name="oi_equipment" value="" style="background-color:#EAEAEA; width: 78% !important;" readonly/> -->
+								</td>
+							</tr>
+							<tr>
+								<th>(재발) 고객불만 접수번호</th>
+								<td>
+									<input type="text" name="origin_receipt_no" value="" style="background-color:#EAEAEA; width: 78% !important;" readonly/>
+																		<span class="msButton_blue3" onclick="open_popup_part_info('popup_cs_view_241007.php', 900, 600, 0);" style="height:18px;">찾기</span>
+																	</td>
+								<th>* 최초 접수자 (그룹명)</th>
+								<td class="impo" value = "최초 접수자 (그룹명)">
+									<input type="text" class="mWt70p"	name="registrant" maxlength="40" value="">
+								</td>
+								<th>* 접수방법</th>
+								<td class="impo" value = "접수방법">
+																		<select name="receive_way" id="receive_way" >
+										<option value="">선택</option>
+										<option value="유선"  >유선</option>
+										<option value="이메일"  >이메일</option>
+										<option value="현장"  >현장</option>
+										<option value="WEB Site"  >WEB Site</option>
+										<option value="기타"  >기타</option>
+									</select>
+																	</td>
+							</tr>
+						</tbody>
+					</table>
+				</div> <!-- tableWrap -->
+				<h3 class="pTitlel_square mt20">프로젝트 및 제품정보</h3>
+				<div class="tableWrap">
+					<table class="msTableInput_gray">
+						<caption class="mHidden"></caption>
+						<tbody>
+							<tr>
+								<th class="mWt12p">Serial No. (BOX-ID)</th>
+								<td class="mWt18p">
+									<input type="text" name="oi_serial_no" maxlength="40" value="">
+								</td>
+								<th class="mWt12p">납품처</th>
+								<td class="mWt18p">
+									<input type="text" name="oi_fty" value="" style="background-color:#EAEAEA;" readonly/>
+								</td>
+								<th class="mWt12p">설비구분</th>
+								<td class="mWt18p">
+									<input type="text" id = "oi_equipment" name="oi_equipment" value="" oninput = "change_code(this)" style="background-color:#EAEAEA; " />
+									<input type="text" id = "oi_equipment_nm" name="oi_equipment_nm" value="" style="background-color:#EAEAEA;" readonly/>
+								</td>
+							</tr>
+							<tr>
+								<th>납품일</th>
+								<td>
+									<input type="text" name="oi_delivery_dt" value="" style="background-color:#EAEAEA;" readonly/>
+								</td>
+								<th>모델</th>
+								<td>
+									<input type="text" name="oi_model" value="" style="background-color:#EAEAEA;" readonly/>
+								</td>
+								<th>Warranty</th>
+								<td>
+									<input type="text" name="oi_due_dt" value="" style="background-color:#EAEAEA;" readonly/>
+								</td>
+							</tr>
+							<tr>
+								<th>사양</th>
+								<td>
+									<input type="text" name="oi_spec" value="" style="background-color:#EAEAEA;" readonly/>
+								</td>
+								<th>유/무상</th>
+								<td>
+									<input type="text" name="woi" value="" style="background-color:#EAEAEA;" readonly/>
+								</td>
+								<th>채널수</th>
+								<td>
+									<input type="text" name="CHANNEL" value="" style="background-color:#EAEAEA;" readonly/>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div> <!-- tableWrap -->
+				<h3 class="pTitlel_square mt20">VOC 정보</h3>
+				<div class="tableWrap">
+					<table class="msTableInput_gray">
+						<caption class="mHidden"></caption>
+						<tbody>
+							<tr>
+								<th class="mWt12p">고장 발생일 (접수일)</th>
+								<td class="mWt18p">
+									<input type="text" class="date mr3"  style = "width:90% !important;" name="receipt_dt" value="2025-07-30" maxlength="40">
+								</td>
+								<th class="mWt12p">고객사</th>
+								<td class="mWt18p">
+									<input type="text" 	name="oi_bizname" maxlength="40" value=" " style="background-color:#EAEAEA;" readonly>
+								</td>
+								<th class="mWt12p">
+									<h> 지역 </h>
+								</th>
+									<td class="mWt18p" value = "site">
+										<select name="site" id="site" >
+											<option value="">선택</option>
+											<option value='L001' >강릉</option>
+<option value='L002' >경주</option>
+<option value='L003' >과천</option>
+<option value='L004' >광주</option>
+<option value='L005' >구미</option>
+<option value='L006' >군산</option>
+<option value='L007' >기흥</option>
+<option value='L008' >김포</option>
+<option value='L009' >김해</option>
+<option value='L010' >나주</option>
+<option value='L011' >남양</option>
+<option value='L012' >논산</option>
+<option value='L013' >당진</option>
+<option value='L014' >대구</option>
+<option value='L015' >대전</option>
+<option value='L016' >마곡</option>
+<option value='L017' >마도</option>
+<option value='L018' >마북</option>
+<option value='L019' >목포</option>
+<option value='L020' >보령</option>
+<option value='L021' >부산</option>
+<option value='L022' >부여</option>
+<option value='L023' >부천</option>
+<option value='L024' >삼척</option>
+<option value='L025' >삼척</option>
+<option value='L026' >서산</option>
+<option value='L027' >서울</option>
+<option value='L028' >성남</option>
+<option value='L029' >세종</option>
+<option value='L030' >수원</option>
+<option value='L031' >아산</option>
+<option value='L032' >안산</option>
+<option value='L033' >안성</option>
+<option value='L034' >안양</option>
+<option value='L035' >양산</option>
+<option value='L036' >예산</option>
+<option value='L037' >오산</option>
+<option value='L038' >오창</option>
+<option value='L039' >용인</option>
+<option value='L040' >울산</option>
+<option value='L041' >음성</option>
+<option value='L042' >의왕</option>
+<option value='L043' >이천</option>
+<option value='L044' >인천</option>
+<option value='L045' >전주</option>
+<option value='L046' >제천</option>
+<option value='L047' >진천</option>
+<option value='L048' >창원</option>
+<option value='L049' >천안</option>
+<option value='L050' >청주</option>
+<option value='L051' >충주</option>
+<option value='L052' >칠곡</option>
+<option value='L053' >파주</option>
+<option value='L054' >평택</option>
+<option value='L055' >포항</option>
+<option value='L056' >해남</option>
+<option value='L057' >화성</option>
+<option value='L058' >기타</option>
+										</select>
+									</td>
+							</tr>
+							<tr>
+								<th>* 고객 접수자</th>
+								<td class="impo" value = "고객 접수자">
+									<input type="text"  name="manager" value="">
+								</td>
+								<th>고객 연락처</th>
+								<td>
+									<!-- <input type="text" class="mWt95p" name="phone" maxlength="20" value="" /> -->
+																			<select name="phone1" class="mWt25p" >
+											<option value="">선택</option>
+											<option value='010' >010</option><option value='011' >011</option><option value='016' >016</option><option value='017' >017</option><option value='018' >018</option><option value='019' >019</option><option value='02' >02</option><option value='031' >031</option><option value='032' >032</option><option value='033' >033</option><option value='041' >041</option><option value='042' >042</option><option value='043' >043</option><option value='051' >051</option><option value='052' >052</option><option value='053' >053</option><option value='054' >054</option><option value='055' >055</option><option value='061' >061</option><option value='062' >062</option><option value='063' >063</option><option value='064' >064</option><option value='070' >070</option><option value='0505' >0505</option><option value='0303' >0303</option><option value='1566' >1566</option><option value='1577' >1577</option><option value='1588' >1588</option><option value='1599' >1599</option><option value='010' >010</option><option value='011' >011</option><option value='016' >016</option><option value='017' >017</option><option value='018' >018</option><option value='019' >019</option>										</select> -
+																		<input type="text" style="width:29% !important;" name="phone2" maxlength="4" value="" /> -
+									<input type="text" style="width:29% !important;" name="phone3" maxlength="4" value="" />
+								</td>
+								<th>고객 이메일</th>
+								<td>
+									<input type="text"  name="customer_email" value="">
+									</td>
+							</tr>
+							<tr>
+								<th>* 분류1</th>
+								<td class="impo" value = "분류1">
+									<select name="error_gubun_code" id="error_gubun_code" readonly>
+											<option value="">선택</option>
+											<option value="F"  >Formation</option>
+											<option value="C"  >Cell Cycler</option>
+											<option value="P"  >Pack Cycler</option>
+									</select>
+								</td>
+								<th>
+									<h>* 분류2</h>
+								</th>
+								<td value = "분류2">
+								<!-- <td class="impo" value = "분류2"> -->
+
+									<select name="error_type_code1" id="error_type_code1" onchange="find_section2();">
+										<option value="">선택</option>
+										<option value='CS01' >CS</option>
+<option value='CS02' >셋업/이설/개조</option>
+<option value='CS05' >S/W</option>
+<option value='CS06' >기타</option>
+									</select>
+								</td>
+								<th>
+									<h>* 에러코드 </h>
+								</th>
+								<td id = "error_type_code2_td" value = "에러코드">
+								<!-- <td id = "error_type_code2_td" class="impo" value = "에러코드"> -->
+									<span id = "error_type_code2_span">
+										<select name="error_type_code2" id="error_type_code2" onchange="find_div();">
+											<option value="">선택</option>
+										</select>
+									</span>
+								</td>
+							</tr>
+							<tr>
+								<th>* 고객불만등급</th>
+								<td class="impo" value = "고객불만등급">
+																				<select name="complain_grade" id="complain_grade" >
+											<option value="">선택</option>
+											<option value="A"  >A</option>
+											<option value="B"  >B</option>
+											<option value="C"  >C</option>
+											<option value="D"  >D</option>
+											<option value="E"  >E</option>
+											<option value="S"  >S(Spare자재 수주)</option>
+										</select>
+																		</td>
+									<th>초기 접수 자료 업로드</th>
+									<td colspan="4">
+										<input type="file" name="add_file1" id="add_file1" >
+										<input type="hidden" class="mWt60p" name="old_file" value="" readonly/>
+																			</td>
+							</tr>
+							<tr>
+								<th>이상(고장)현상 <br>고객불만 상세내역</th>
+								<td colspan="5">
+									<textarea name="complain_detail" value=""></textarea>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div> <!-- tableWrap -->
+
+				<div class= "msTable_gray" id="tableWrap2">
+					<iframe class="outer-iframe" id="outerIframe" src="cs_reg2_workinfo.php?receipt_no=&oi_equipment=" width="100%" height="100%" scrolling="no" onload="resizeIframe(this)"></iframe></td>
+				</div>
+
+				</form>
+				<div class="buttonRight mt10">
+					<span class="msButton_black" onclick="location.href='cs_view2.php'">리스트</span> <span class="msButton_blue2 ml5" onclick="save();">저 장</span> 				</div> <!-- buttonRight -->
+			</div> <!-- con_wrap -->
+		</div> <!-- contents -->
+	</div> <!-- container -->
+</section>
+<script>
+var width  = 500; //팝업의 너비
+var height = 600; //팝업의 높이
+
+var isEditMode = '';
+var initialErrorTypeCode1 = '';
+var initialErrorTypeCode2 = '';
+
+function open_popup_part_info(filename, width, height, itemno) {
+
+	var window_left = (screen.width-640)/2;
+	var window_top = (screen.height-780)/2;
+	window.open( filename, "open_win", 'width=' + width + ',height=' + height + ',status=no,scrollbars=yes,top=' + window_top + ',left=' + window_left + '');
+}
+
+var oForm = document.reg_form;
+
+function reset(){
+	oForm.reset();
+
+}
+
+var find_section1 = function() {
+
+	params = "equiment=" + $("input[name=oi_equipment]").val(); //선택한 변수
+	url    = "ajax.find_cs_section1.php";
+	setAjax( "GET", false, url, 'html', params, function( res ) {
+		//$("select[name=error_type_code2").html( res );
+		//document.getElementById('test').innerHTML = ''; // cell1 초기화
+		$("#error_type_code1").html(res);
+	});
+};
+
+function find_section2() {
+    var errorTypeCode1Value = $('#error_type_code1').val(); // 현재 선택된 "분류2" 값
+    var errorTypeCode2Select = $('#error_type_code2');     // "에러코드" select jQuery 객체
+		//var selectedValue = errorTypeCode2Select.val(); // 기존 선택값 저장
+
+		var gubunCodeVal = $('#error_gubun_code').val();
+    var current_param_equipment = '';
+
+    if (gubunCodeVal === 'F') current_param_equipment = 'FOR';
+    else if (gubunCodeVal === 'C') current_param_equipment = 'CYC';
+    else if (gubunCodeVal === 'P') current_param_equipment = 'PSC';
+
+    // 1. 기존 Select2 인스턴스가 있다면 파괴(destroy)합니다.
+    if (errorTypeCode2Select.data('select2')) {
+        errorTypeCode2Select.select2('destroy');
+    }
+
+    // 2. "에러코드" 드롭다운의 기존 옵션들을 초기화
+    errorTypeCode2Select.find('option:not(:first)').remove();
+
+		if (errorTypeCode1Value && current_param_equipment) {
+        $.ajax({
+            url: 'ajax.find_cs_section2.php',
+            type: 'POST',
+            data: {
+                error_type_code1_val: errorTypeCode1Value,
+                param_equipment_val: current_param_equipment
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success && response.options) {
+                    $.each(response.options, function(value, text) {
+                        errorTypeCode2Select.append($('<option>', {
+                            value: value,
+                            text: text
+                        }));
+                    });
+
+										// 수정 모드이고 initialErrorTypeCode2 값이 있으면 해당 값으로 설정
+                    if (isEditMode && initialErrorTypeCode2) {
+                        errorTypeCode2Select.val(initialErrorTypeCode2);
+                    }
+                }
+
+                errorTypeCode2Select.select2({
+                    placeholder: "선택 또는 검색하세요",
+                    allowClear: true,
+                    width: '100%'
+                });
+								// 수정 모드일 경우 에러코드 필드 비활성화
+                if (isEditMode) {
+                    errorTypeCode2Select.prop('disabled', true).css('background-color', '#EAEAEA');
+                    if (errorTypeCode2Select.data('select2')) { // Select2가 적용된 경우
+                        errorTypeCode2Select.next('.select2-container').find('.select2-selection--single').css('background-color', '#EAEAEA');
+                    }
+                }
+            }
+        });
+    } else if (isEditMode) { // errorTypeCode1Value가 없더라도 수정 모드면 Select2 초기화 및 비활성화
+        errorTypeCode2Select.select2({
+            placeholder: "선택 또는 검색하세요",
+            allowClear: true,
+            width: '100%'
+        });
+        errorTypeCode2Select.prop('disabled', true).css('background-color', '#EAEAEA');
+        if (errorTypeCode2Select.data('select2')) {
+            errorTypeCode2Select.next('.select2-container').find('.select2-selection--single').css('background-color', '#EAEAEA');
+        }
+    }
+}
+
+// 수정 모드에서 연쇄적인 초기 로딩 중인지 판단하기 위한 플래그
+
+// 페이지 로드 시 및 분류1 변경 시 연쇄 동작 처리
+$(document).ready(function() {
+	//var savedErrorTypeCode1 = localStorage.getItem('error_type_code1');
+	//var savedErrorTypeCode2 = localStorage.getItem('error_type_code2');
+
+
+	$('#error_gubun_code').on('change', function() {
+			//var errorTypeCode1Select = $('#error_type_code1');
+			//var errorTypeCode2Select = $('#error_type_code2');
+			find_section1();
+
+	});
+
+	if (isEditMode) {
+			// 수정 모드일 때
+			var gubunCode = ''; // PHP에서 가져온 분류1 초기값
+			var typeCode1 = ''; // PHP에서 가져온 분류2 초기값
+
+			if (gubunCode) {
+					$('#error_gubun_code').val(gubunCode); // 분류1 설정 (이미 readonly라 사용자가 변경 불가)
+					// find_section1()을 호출하여 분류2의 옵션을 올바르게 로드
+					// 이 함수는 AJAX를 사용하므로, 완료 후 분류2 값을 설정해야 함
+					var equipmentForSection1 = "";
+					if (gubunCode === 'F') equipmentForSection1 = 'FOR';
+					else if (gubunCode === 'C') equipmentForSection1 = 'CYC';
+					else if (gubunCode === 'P') equipmentForSection1 = 'PSC';
+					else equipmentForSection1 = $('input[name=oi_equipment]').val();
+
+
+					// ajax.find_cs_section1.php 가 실제 어떤 값을 기준으로 분류2를 만드는지 확인 필요
+					// 여기서는 gubunCode (F, C, P) 를 기준으로 oi_equipment 값을 유추하여 사용
+					// 또는, $param_equipment 를 JavaScript 변수로 넘겨서 사용
+					var tempOiEquipment = ''; // $param_equipment는 oi_equipment와 같을 수 있음
+
+					params = "equiment=" + tempOiEquipment; // 또는 gubunCode에 맞는 equipment 값
+					url    = "ajax.find_cs_section1.php";
+					setAjax("GET", false, url, 'html', params, function(res) {
+							$("#error_type_code1").html(res); // 분류2 옵션 로드
+							if (typeCode1) {
+									$('#error_type_code1').val(typeCode1); // 분류2 값 설정
+							}
+							$('#error_type_code1').prop('disabled', true).css('background-color', '#EAEAEA'); // 분류2 비활성화
+							find_section2(); // 분류2 값 설정 후 에러코드 로드 및 설정
+					});
+
+			} else {
+					// 분류1 값이 없는 경우 (데이터 오류 등), 분류2와 에러코드도 비활성화만 처리
+					 $('#error_type_code1').prop('disabled', true).css('background-color', '#EAEAEA');
+					 $('#error_type_code2').prop('disabled', true).css('background-color', '#EAEAEA');
+					 if ($('#error_type_code2').data('select2')) {
+							$('#error_type_code2').next('.select2-container').find('.select2-selection--single').css('background-color', '#EAEAEA');
+					 }
+			}
+	} else {
+			// 등록 모드일 때 (기존 로직 유지)
+			if ($('#error_gubun_code').val()) {
+					$('#error_gubun_code').trigger('change');
+			}
+	}
+});
+
+var find_div = function() {
+	params = "error_type_code1=" + $("select[name='error_type_code1']").val() + "error_type_code2=" + $("select[name='error_type_code2']").val(); //선택한 변수
+	url    = "../customer/ajax.find_div.php";
+
+	setAjax( "GET", false, url, 'html', params, function( res ) {
+		$("input[name='clevel_nm']").val( res );
+	});
+};
+
+function validation() {
+    var inputsAndSelects = document.querySelectorAll('.impo input, .impo select');
+
+    console.log(inputsAndSelects);
+
+    for (const element of inputsAndSelects) {
+        var parentTd = element.closest('td');
+        var valueText = parentTd ? parentTd.getAttribute('value') : '';
+
+        // 각 요소의 값 확인
+        if (!element.value) {
+            alert(valueText + "을 입력하세요"); // value 값을 경고 메시지에 사용
+            element.focus(); // 해당 요소에 포커스 주기
+            return false; // 유효성 검사 실패
+        } else {
+            console.log("입력된 값: " + element.value); // 입력된 값 출력
+        }
+    }
+    return true; // 모든 입력이 유효할 경우
+}
+
+function save() {
+
+	if (!validation()) return;
+
+	var datas = new FormData($('form')[0]);
+	//var datas = new FormData(document.getElementById('reg_form'));
+	datas.append( 'error_type_code2',  $("select[name='error_type_code2']").val());
+	// FormData 내용 확인
+	for (var pair of datas.entries()) {
+	    console.log(pair[0] + ': ' + pair[1]);
+	}
+
+	datas.append('upload_path', 'cs2');
+	if ($("#add_file1").val() != "") {
+    datas.append( 'upload_file1', $( '#add_file1' )[0].files[0] );
+    datas.append( 'upload_file_name1', $("#add_file1").val() );
+  }
+
+	if (document.getElementById('add_file2')) {
+	  if ($("#add_file2").val() != "") {
+		 	datas.append( 'upload_file2', $( '#add_file2' )[0].files[0] );
+		 	datas.append( 'upload_file_name2', $("#add_file2").val() );
+	  }
+	}
+	if (document.getElementById('add_file3')) {
+	  if ($("#add_file3").val() != "") {
+		 	datas.append	( 'upload_file3', $( '#add_file3' )[0].files[0] );
+		 	datas.append( 'upload_file_name3', $("#add_file3").val() );
+	  }
+	}
+
+
+	var mainIframe = $('#outerIframe').contents();
+
+	mainIframe.find("input[name^=in_list_no]").each(function(idx) {
+
+    var tagID = $(this).attr('id');
+    var relID = tagID.split('in_list_qty');
+	// iframe 내의 input 값 가져오기
+	 //dynamic으로 추가한것은 Form에 assign되지않는 현상으로 강제로 1이후를 넣음..
+	  //var keyValue = mainIframe.find("input[name='in_list_no[" + relID[1] + "]']").val();
+		//alert("tagID :" + tagID + ", relID :" + relID + "cs_result :" + mainIframe.find("input[name='cs_result[" + relID[1] + "]']:checked").val());
+		if (mainIframe.find("input[name='in_list_no[" + relID[1] + "]']").val() != '0'){
+			 datas.append('in_list_no['+relID[1]+']'	, mainIframe.find("input[name='in_list_no["+relID[1]+"]']").val());
+			 datas.append('task_no[' + relID[1] + ']', mainIframe.find("input[name='task_no[" + relID[1] + "]']").val());
+			 datas.append('depth[' + relID[1] + ']', mainIframe.find("input[name='in_list_no[" + relID[1] + "]']").val());
+			 datas.append('reservation_dt[' + relID[1] + ']', mainIframe.find("input[name='reservation_dt[" + relID[1] + "]']").val());
+			 datas.append('visit_dt[' + relID[1] + ']', mainIframe.find("input[name='visit_dt[" + relID[1] + "]']").val());
+			 datas.append('cs_case[' + relID[1] + ']', mainIframe.find("textarea[name='cs_case[" + relID[1] + "]']").val());
+			 datas.append('cs_reason[' + relID[1] + ']', mainIframe.find("textarea[name='cs_reason[" + relID[1] + "]']").val());
+			 datas.append('cs_action[' + relID[1] + ']', mainIframe.find("textarea[name='cs_action[" + relID[1] + "]']").val());
+			 datas.append('cs_result[' + relID[1] + ']', mainIframe.find("input[name='cs_result[" + relID[1] + "]']:checked").val());
+			 datas.append('cs_com_dt[' + relID[1] + ']', mainIframe.find("input[name='cs_com_dt[" + relID[1] + "]']").val());
+			 datas.append('engineerIds[' + relID[1] + ']', mainIframe.find("input[name='engineerIds[" + relID[1] + "]']").val());
+		}
+
+	});
+
+	var detailIframes = mainIframe.find('iframe');
+	var iframeCount = detailIframes.length; // innerIframe의 개수
+	datas.append('work_info_cnt[0]', iframeCount);
+	console.log(mainIframe.find('iframe'));
+	console.log('innerIframe 개수:', iframeCount);
+
+	detailIframes.each(function(index) {
+			var detailIframe = $(this).contents();
+			console.log('detailIframe:', detailIframe); // 추가된 로그
+
+			console.log('in_detail_list_no 요소:', detailIframe.find("input[name^='in_detail_list_no']"));
+
+	    detailIframe.find("input[name^='in_detail_list_no']").each(function() {
+	        var tagID = $(this).attr('id');
+	        var relID = tagID.split('in_detail_list_qty');
+
+	        if (relID.length > 1) {
+	            var matches = relID[1].match(/\[(\d+)\]\[(\d+)\]/);
+	            if (matches) {
+	                var mainSeq = matches[1];
+	                var i = matches[2]; // 'i' 사용
+
+	                if (detailIframe.find("input[name='in_detail_list_no[" + mainSeq + "][" + i + "]']").val() != '0') {
+	                    datas.append('cs_task_no[' + mainSeq + '][' + i + ']', detailIframe.find("input[name='cs_task_no[" + mainSeq + "][" + i + "]']").val());
+	                    datas.append('seq[' + mainSeq + '][' + i + ']', detailIframe.find("input[name='in_detail_list_no[" + mainSeq + "][" + i + "]']").val());
+	                    datas.append('step1[' + mainSeq + '][' + i + ']', detailIframe.find("select[name='step1[" + mainSeq + "][" + i + "]']").val());
+	                    datas.append('step2[' + mainSeq + '][' + i + ']', detailIframe.find("select[name='step2[" + mainSeq + "][" + i + "]']").val());
+	                    datas.append('step3[' + mainSeq + '][' + i + ']', detailIframe.find("input[name='step3[" + mainSeq + "][" + i + "]']").val());
+	                    datas.append('step3_nm[' + mainSeq + '][' + i + ']', detailIframe.find("input[name='step3_nm[" + mainSeq + "][" + i + "]']").val());
+	                    datas.append('qty[' + mainSeq + '][' + i + ']', detailIframe.find("input[name='qty[" + mainSeq + "][" + i + "]']").val());
+	                    datas.append('hogi[' + mainSeq + '][' + i + ']', detailIframe.find("input[name='hogi[" + mainSeq + "][" + i + "]']").val());
+	                    datas.append('boxid[' + mainSeq + '][' + i + ']', detailIframe.find("input[name='boxid[" + mainSeq + "][" + i + "]']").val());
+	                    datas.append('work_gubun[' + mainSeq + '][' + i + ']', detailIframe.find("select[name='work_gubun[" + mainSeq + "][" + i + "]']").val());
+	                    datas.append('worker[' + mainSeq + '][' + i + ']', detailIframe.find("input[name='worker[" + mainSeq + "][" + i + "]']").val());
+	                    datas.append('work_time[' + mainSeq + '][' + i + ']', detailIframe.find("input[name='work_time[" + mainSeq + "][" + i + "]']").val());
+	                }
+
+	            }
+	        }
+	    });
+	});
+
+	$.ajax({
+		url: 'ajax.cs_info_proc2.php', // url where upload the image
+		contentType: 'multipart/form-data',
+		type: 'POST',
+		data: datas,
+		dataType: 'json',
+		mimeType: 'multipart/form-data',
+		success: function (res) {
+			if( parseInt( res.err, 10 ) > 0 ) {
+				alert("정상적으로 처리되었습니다.");
+				location.href = "./cs_view2.php";
+			} else{
+				alert("처리되지 않았습니다. ERR-001");
+			}
+		},
+		cache: false,
+		contentType: false,
+		processData: false
+	});
+	//location.reload();
+}
+
+function goApproved() {
+
+	check_cnt = 0;
+	$("input[name^=start_date]").each(function(idx){
+		var tagID  = $(this).attr('id');
+		var relID = tagID.split('Date'); //chkQTY로 분류해서 ID값을 구한다.
+
+		if( $( "input[name='start_date["+relID[1]+"]']" ).val() == "" ){
+			alert("작업시작버튼을 선택하세요");
+			check_cnt++;
+			return false;
+		}
+
+		if( $( "input[name='end_date["+relID[1]+"]']" ).val() == "" ){
+			alert("작업종료버튼을 선택하세요");
+			check_cnt++;
+			return false;
+		}
+
+		if( $( "select[name='select_time["+relID[1]+"]']" ).val() == "" && $( "input[name='input_time["+relID[1]+"]']" ).val() == ""){
+			alert("작업시간을 입력하세요");var valueText = parentTd ? parentTd.getAttribute('value') : '';
+			check_cnt++;
+			return false;
+		}
+
+	});
+
+	if( check_cnt > 0 ){
+		return false;
+	}
+
+	if(oForm.work_start_date.value == ""){
+		alert("작업시작일을 입력하세요.");
+		oForm.work_start_date.focus();
+		return false;
+	}
+
+	if(oForm.work_end_date.value == ""){
+		alert("작업종료일을 입력하세요.");
+		oForm.work_end_date.focus();
+		return false;
+	}
+
+	var strDate1 = oForm.work_start_date.value;
+	var strDate2 = oForm.work_end_date.value;
+	var arr1 = strDate1.split('-');
+	var arr2 = strDate2.split('-');
+	var dat1 = new Date(arr1[0], arr1[1], arr1[2]);
+	var dat2 = new Date(arr2[0], arr2[1], arr2[2]);
+
+	if (dat2 < dat1) {
+		alert("작업종료일은 작업시작일보다 커야 합니다.");
+		oForm.work_start_date.focus();
+		return false;
+	}
+
+	var params = $( "form[name='reg_form']" ).serialize();
+	//alert(JSON.stringify(params));
+	setAjax('POST', true, "ajax.popup_cs_approved.php", 'json', params, function( res ) {
+		if( parseInt( res.err, 10 ) > 0 ) {
+//			alert("정상적으로 처리되었습니다.");
+			open_layer('layer_cs_approved.php?receipt_no=&approved=Y', '', 700, 250);
+		} else{
+			alert("처리되지 않았습니다. ERR-001");
+		}
+	});
+
+}
+
+function cancel() {
+	var params = "receipt_no=";
+	//alert(params);
+
+    if(confirm("해당 CS건을 취소하시겠습니까?")){
+		setAjax('POST', true, "ajax.cs_cancel.php", 'json', params, function( res ) {
+			if( parseInt( res.err, 10 ) > 0 ) {
+	//			alert("정상적으로 처리되었습니다.");
+				location.href = "./cs_view.php";
+			} else{
+	//			alert("처리되지 않았습니다. ERR-001");
+			}
+		});
+    }
+}
+
+$(document).ready(function(){
+    $('[name^=phone]').keyup(validateNumber);
+});
+
+
+
+function calQty(itemno){
+
+	var v = $( "input[name='qty["+itemno+"]']" ).val();
+	v = v.replace(/,/gi, "");
+	if (v == '') return;
+	if (!$.isNumeric(v)) {
+		alert("숫자만 입력 가능합니다.");
+		$( "input[name='qty["+itemno+"]']" ).val('');
+		$( "input[name='qty["+itemno+"]']" ).focus();
+		return;
+	}
+}
+
+function startAction(engineerId){
+	var params = "receipt_no=&engr=" + engineerId;
+	//alert(JSON.stringify(params));
+	setAjax('POST', true, "ajax.cs_start.php", 'json', params, function( res ) {
+		if( parseInt( res.err, 10 ) > 0 ) {
+			alert("정상적으로 처리되었습니다.");
+			location.reload();
+		} else{
+			alert("처리되지 않았습니다. ERR-001");
+		}
+	});
+}
+
+function stopAction(engineerId){
+	var params = "receipt_no=&engr=" + engineerId;
+	//alert(JSON.stringify(params));
+	setAjax('POST', true, "ajax.cs_stop.php", 'json', params, function( res ) {
+		if( parseInt( res.err, 10 ) > 0 ) {
+			alert("정상적으로 처리되었습니다.");
+			location.reload();
+		} else{
+			alert("처리되지 않았습니다. ERR-001");
+
+		}
+	});
+	location.reload();
+}
+
+function resizeIframe(iframe) {
+    // iframe의 콘텐츠 높이를 가져와서 iframe의 높이를 설정
+    iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+		iframe.style.width = iframe.contentWindow.document.body.scrollWidth + 'px';
+
+		}
+
+// iframe 동적 height 조절
+window.addEventListener('message', function(event) {
+	  const data = event.data;
+
+		// 보안상의 이유로 event.origin을 확인하는 것이 좋습니다.
+		const newHeight = event.data; // iframe에서 전송된 높이
+		const iframe = document.getElementById('outerIframe');
+		iframe.style.height = newHeight + 'px'; // iframe 높이 조정
+
+		if (data.type === "radioChanged") {
+
+				const state = document.getElementById('state');
+				if (!state) {
+						console.error("Element with ID 'state' not found in parent.");
+						return;
+				}
+
+        // 추가 로직 실행
+				if (data.cnt > 1) {
+            // 이 부분은 현재 실행되지 않습니다 (cnt가 1이므로).
+            switch (data.selectedValue) {
+                case "N": stateElement.value = "5"; break; // 원래 주석 처리됨
+                //case "E": state.value = "3"; break;
+                case "R": state.value = "5"; break;
+                case "Y": state.value = "8"; break;
+                default:
+                    // console.log("No action for selectedValue (cnt > 1):", data.selectedValue);
+                    break;
+            }
+        } else { // cnt가 1이거나 1보다 작은 경우 (현재는 항상 cnt가 1)
+            switch (data.selectedValue) {
+                case "N": state.value = "1"; break;
+                case "E": state.value = "3"; break;
+                case "R": state.value = "5"; break;
+                case "Y": state.value = "8"; break;
+                default:
+                    // console.log("No action for selectedValue (cnt <= 1):", data.selectedValue);
+                    break;
+            }
+        }
+    }
+});
+
+//설비 구분 변경 시 select 코드 변경
+function change_code(equipment) {
+
+	var mainIframe = document.getElementById('outerIframe');
+	var equipmentValue = $(equipment).val(); // equipment에서 선택된 값 가져오기
+
+  //프로젝트가 CYC일때 변경
+	const elementsCyc = document.querySelectorAll('.gubun_cyc');
+	const elementsFor = document.querySelectorAll('.gubun_for');
+
+	if (equipmentValue === 'C' || equipmentValue === 'P') {
+		// .gubun_cyc 요소를 block으로 설정
+		elementsCyc.forEach(element => {
+				element.style.display = 'block';
+		});
+
+		// .gubun_for 요소를 none으로 설정
+		elementsFor.forEach(element => {
+				element.style.display = 'none';
+		});
+	} else {
+		elementsCyc.forEach(element => {
+				element.style.display = 'none';
+		});
+		elementsFor.forEach(element => {
+				element.style.display = 'block';
+		});
+	}
+
+	var currentSrc = "cs_reg2_workinfo.php?receipt_no=&oi_equipment=" + encodeURIComponent(equipmentValue); // 현재 src 값을 저장
+	mainIframe.src = ''; // iframe을 비움
+	mainIframe.src = currentSrc; // 다시 src 값을 설정하여 리로드
+
+}
+
+function setReadonly() {
+	const div = document.getElementById('con_wrap');
+	const inputs = div.querySelectorAll('input, textarea, select, button, img');
+
+	inputs.forEach(input => {
+		if (input.tagName === 'SELECT' || input.type === 'text') {
+			input.setAttribute('readonly', true); // readonly로 변경
+			input.style.backgroundColor = '#EAEAEA'; // 배경색 변경
+			input.style.color = 'fieldtext'; // 텍스트 색상
+			input.style.opacity = 1; // 텍스트 색상
+
+		} else if (input.tagName === 'BUTTON') {
+			input.style.display = 'none';
+
+		} else if (input.type === 'radio') {
+			input.setAttribute('disabled', true); // radio 버튼 비활성화
+
+		} else if (input.type === 'file') {
+			input.style.pointerEvents = 'none'; // 클릭 이벤트 막기
+			input.style.opacity = '0.5'; // 시각적으로 비활성화된 느낌 주기
+
+		} else if (input.tagName === 'IMG') {
+			input.style.pointerEvents = 'none'; // 클릭 이벤트 막기
+			input.style.opacity = '0.5'; // 시각적으로 비활성화된 느낌 주기
+
+		} else {
+			input.readOnly = true; // readonly로 설정
+			input.style.backgroundColor = '#EAEAEA'; // 배경색 변경
+		}
+	});
+}
+
+function handleValueChange(newValue) {
+		console.log("새로운 값:", newValue);
+		// 추가 로직을 여기에 작성
+}
+
+</script>
+</body>
+</html>
