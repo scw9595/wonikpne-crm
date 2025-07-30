@@ -130,6 +130,18 @@
         <label for="serial_number">시리얼번호</label>
         <input type="text" id="serial_number" name="serial_number">
       </div>
+      <div class="form-group">
+        <label for="equipment_location">장비 위치</label>
+        <input type="text" id="equipment_location" name="equipment_location">
+      </div>
+      <div class="form-group">
+        <label for="model_name">모델명</label>
+        <input type="text" id="model_name" name="model_name">
+      </div>
+      <div class="form-group">
+        <label for="delivery_date">납품일</label>
+        <input type="text" id="delivery_date" name="delivery_date">
+      </div>
 
       <h3>VOC 정보</h3>
       <div class="form-group">
@@ -141,14 +153,33 @@
         <input type="text" id="manager" name="manager">
       </div>
       <div class="form-group">
-        <label for="error_type_code1">분류2</label>
-        <select id="error_type_code1" name="error_type_code1">
+        <label for="error_type_code1">분류1</label>
+        <input type="text" id="error_type_code1" name="error_type_code1">
+      </div>
+      <div class="form-group">
+        <label for="error_type_code2">분류2</label>
+        <input type="text" id="error_type_code2" name="error_type_code2">
+      </div>
+      <div class="form-group">
+        <label for="error_type_code3">분류3</label>
+        <input type="text" id="error_type_code3" name="error_type_code3">
+      </div>
+      <div class="form-group">
+        <label for="importance">중요도</label>
+        <select id="importance" name="importance">
           <option value="">선택</option>
-          <option value="CS01">CS</option>
-          <option value="CS02">셋업/이설/개조</option>
-          <option value="CS05">S/W</option>
-          <option value="CS06">기타</option>
+          <option value="상">상</option>
+          <option value="중">중</option>
+          <option value="하">하</option>
         </select>
+      </div>
+      <div class="form-group">
+        <label for="frequency">발생빈도</label>
+        <input type="text" id="frequency" name="frequency">
+      </div>
+      <div class="form-group">
+        <label for="personnel">처리인원</label>
+        <input type="text" id="personnel" name="personnel">
       </div>
       <div class="form-group">
         <label for="complain_detail">고객불만 상세내역</label>
@@ -159,6 +190,21 @@
       <div class="form-group">
         <label for="action_date">조치일자</label>
         <input type="text" id="action_date" name="action_date">
+      </div>
+      <div class="form-group">
+        <label for="completion_date">완료일자</label>
+        <input type="text" id="completion_date" name="completion_date">
+      </div>
+      <div class="form-group">
+        <label for="action_status">처리상태</label>
+        <select id="action_status" name="action_status">
+          <option value="진행중">진행중</option>
+          <option value="완료">완료</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="lead_time">리드타임(일)</label>
+        <input type="text" id="lead_time" name="lead_time">
       </div>
       <div class="form-group">
         <label for="action_result">조치내용</label>
